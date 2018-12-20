@@ -1,0 +1,16 @@
+<launch>
+
+    <arg name="gui" default="true" />
+    <param name="use_gui" value="$(arg gui)"/>
+
+   <param name="robot_description" command="$(find xacro)/xacro.py
+    $(find arttreeks_description)/urdf/creator_output_test.xacro" />
+
+    <!--param name="robot_description" textfile="???/urdf/myrobot.urdf" /-->
+
+    <node name="joint_state_publisher" pkg="joint_state_publisher" type="joint_state_publisher" />
+    <node name="robot_state_publisher" pkg="robot_state_publisher" type="state_publisher" />
+    <node name="rviz" pkg="rviz" type="rviz" required="true" args="-f base
+    -d $(find arttreeks_description)/config/test_rviz.rviz" />
+
+</launch>
