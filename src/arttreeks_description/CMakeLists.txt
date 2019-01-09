@@ -1,12 +1,16 @@
 cmake_minimum_required(VERSION 2.8.3)
 project(arttreeks_description)
 
+add_compile_options(-std=c++11)
+
 ## Find catkin macros and libraries
 ## if COMPONENTS list like find_package(catkin REQUIRED COMPONENTS xyz)
 ## is used, also find other catkin packages
 find_package(catkin REQUIRED COMPONENTS
   roscpp
 )
+
+find_package(OpenCV REQUIRED)
 
 ## System dependencies are found with CMake's conventions
 # find_package(Boost REQUIRED COMPONENTS system)
@@ -98,11 +102,15 @@ find_package(catkin REQUIRED COMPONENTS
 ## CATKIN_DEPENDS: catkin_packages dependent projects also need
 ## DEPENDS: system dependencies of this project that dependent projects also need
 catkin_package(
-#  INCLUDE_DIRS include
-#  LIBRARIES arttreeks_description
-#  CATKIN_DEPENDS roscpp
-#  DEPENDS system_lib
+ INCLUDE_DIRS
+    include
+  LIBRARIES
+    robot
+  CATKIN_DEPENDS roscpp
+  DEPENDS system_lib
 )
+
+include_directories(include ${catkin_INCLUDE_DIRS} )
 
 ###########
 ## Build ##
@@ -112,7 +120,7 @@ catkin_package(
 ## Your package locations should be listed before other locations
 # include_directories(include)
 include_directories(
-  ${catkin_INCLUDE_DIRS}
+  ${catkin_INCLUDE_DIRS} ${OpenCV_INCLUDE_DIRS}
 )
 
 ## Declare a C++ library
@@ -185,7 +193,35 @@ include_directories(
 ## Add folders to be run by python nosetests
 # catkin_add_nosetests(test)
 
-add_executable(urdf_creator src/urdf_creator.cpp)
-target_link_libraries(urdf_creator ${catkin_LIBRARIES})
+
+# node
+add_executable(test_gnuplot src/nodes/test_gnuplot.cpp)
+# class
+add_library(gnuplot src/arttreeks_description/gnuplot.cpp)
+# link the nodes with the headers
+target_link_libraries(test_gnuplot gnuplot ${catkin_LIBRARIES})
+
+# node
+add_executable(test_tree src/nodes/test_tree.cpp)
+# class
+add_library(node src/arttreeks_description/node.cpp)
+# link the nodes with the headers
+target_link_libraries(test_tree node ${catkin_LIBRARIES})
+
+# node
+add_executable(urdf_creator src/nodes/urdf_creator.cpp)
+# class
+add_library(robot src/arttreeks_description/robot.cpp)
+# link the nodes with the headers
+target_link_libraries(urdf_creator robot gnuplot node ${catkin_LIBRARIES})
+
+
+#install(TARGETS robot
+# ARCHIVE DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
+# LIBRARY DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
+#)
+
+
+
 
 
