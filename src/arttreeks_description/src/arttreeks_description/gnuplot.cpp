@@ -1,6 +1,12 @@
 #include "arttreeks_description/gnuplot.h"
 #include <string>
+#include <vector>
+#include <string>
+#include <stdio.h>
 #include <iostream>
+
+using namespace std;
+
 
 gnuplot::gnuplot() {
 // with -persist option you will see the windows as your program ends
@@ -12,10 +18,10 @@ gnuplot::gnuplot() {
  gnuplotpipe = popen("gnuplot","w");
 
  if (!gnuplotpipe) {
-   cerr<< ("Gnuplot not found !");
+   std::cerr<< ("Gnuplot not found !");
  }
  else {
-   std::cout << "gunplot runs successfully" << endl;
+   std::cout << "gunplot runs successfully" << std::endl;
  }
 }
 gnuplot::~gnuplot() {

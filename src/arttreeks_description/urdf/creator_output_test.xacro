@@ -1,45 +1,91 @@
 <?xml version="1.0" ?>
 <robot name="atks" xmlns:xacro="http://ros.org/wiki/xacro">
 
+<!-- the order in rpy is rotation around fixed axis in order of X - Y - Z
+     rpy is applied first and then xyz is applied. First, rotation and then position -->
 
-  <link name="base"/>
+<!-- the frame of the child link (rotatable frame) coincides with the frame of
+joint (which stays at joint value = 0) and does not appear in Rviz. Rviz only shows the link frame.
+Keep in mind that the link itslef can have transformation with respectt to the link frame (<origin>).
+This transformation does not effect the next joint pose.
 
-<joint name="base_to_link1" type="fixed">
-    <parent link="base"/>
-    <child link="link1"/>
-    <origin xyz="0 0 0" rpy="0 0 0"/>
-  </joint>
+<origin> option in <joint> defines the pose of the joint relative to the previous link frame
+
+-->
+
+  <link name="base">
+  <visual>
+  <geometry>
+      <box size="0.1 0.1 0.1"/>
+  </geometry>
+  <material name="blackk">
+     <color rgba="0.5 0.7 0.9 1.0"/>
+   </material>
+  </visual>
+  </link>
+
+<joint name="base_to_link1" type="revolute">
+  <parent link="base"/>
+  <child link="link1"/>
+  <origin xyz="0 -1 1" rpy="0 -2.18166 0"/>
+  <limit effort="1000.0" lower="-3.14" upper="3.14" velocity="0.5"/>
+  <axis xyz="0 0 1"/>
+</joint>
 
   <link name="link1">
       <visual>
-       <geometry>
-         <cylinder length="0.6" radius="0.2"/>
-        </geometry>
+      <geometry>
+          <box size="0.1 0.1 0.5"/>
+      </geometry>
+      <material name="black">
+         <color rgba="138.000000 43.000000 226.000000 1.000000"/>
+       </material>
+      <origin rpy="0 0 0" xyz="0 0 0"/>
       </visual>
   </link>
 
-<joint name="link1_to_link2" type="revolute">
+<!--
+<joint name="link1_to_link11" type="revolute">
   <parent link="link1"/>
-  <child link="link2"/>
-  <origin xyz="0 0 0.3" rpy="0 0 0"/>
+  <child link="link11"/>
+  <origin xyz="0 0 1" rpy="0 0 0"/>
   <limit effort="1000.0" lower="-3.14" upper="3.14" velocity="0.5"/>
   <axis xyz="0 1 0"/>
 </joint>
 
-  <link name="link2">
+  <link name="link11">
       <visual>
        <geometry>
-         <box size="0.6 0.1 0.2"/>
+         <box size="1 0.1 0.1"/>
         </geometry>
-        <origin rpy="0 1.57075 0" xyz="0 0 0.3"/>
+        <origin rpy="0 0 0" xyz="0 0 0"/>
         <material name="blue">
            <color rgba="0 0 0.8 1"/>
        </material>
       </visual>
   </link>
+  -->
+<!--
+<joint name="link1_to_link12" type="revolute">
+  <parent link="link1"/>
+  <child link="link12"/>
+  <origin xyz="0.5 0 0.5" rpy="0 0 0.6"/>
+  <limit effort="1000.0" lower="-3.14" upper="3.14" velocity="0.5"/>
+  <axis xyz="1 0 0"/>
+</joint>
 
+<link name="link12">
+    <visual>
+     <geometry>
+       <box size="1 0.1 0.1"/>
+      </geometry>
+      <origin rpy="1 1 0" xyz="0 0 0"/>
+      <material name="blue">
+         <color rgba="0 0 0.8 1"/>
+     </material>
+    </visual>
+</link>
 
-
-
+-->
 
 </robot>

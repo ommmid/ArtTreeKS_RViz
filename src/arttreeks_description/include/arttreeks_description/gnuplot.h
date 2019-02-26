@@ -1,16 +1,17 @@
 #ifndef GNUPLOT_H
 #define GNUPLOT_H
 
-#include <string>
 #include <iostream>
-using namespace std;
+#include <string>
+
+
 
 class gnuplot {
 
 public:
   gnuplot();
   ~gnuplot();
-  void operator ()(const string & command);
+  void operator ()(const std::string& command);
 // send any command to gnuplot
 
 protected:

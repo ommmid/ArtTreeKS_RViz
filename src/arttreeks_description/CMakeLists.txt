@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 2.8.3)
+cmake_minimum_required(VERSION 3.5.1)
 project(arttreeks_description)
 
 add_compile_options(-std=c++11)
@@ -193,33 +193,64 @@ include_directories(
 ## Add folders to be run by python nosetests
 # catkin_add_nosetests(test)
 
+# class
+add_library(funcs src/arttreeks_description/funcs.cpp)
+
+# node
+add_executable(publish_targets src/nodes/publish_targets.cpp)
+# link the nodes with the headers
+target_link_libraries(publish_targets funcs ${catkin_LIBRARIES})
+
+# node
+add_executable(create_dq_pose src/nodes/create_dq_pose.cpp)
+# link the nodes with the headers
+target_link_libraries(create_dq_pose funcs ${catkin_LIBRARIES})
+
+# node
+add_executable(test_posematrix src/nodes/test_posematrix.cpp)
+# class
+add_library(posematrix src/arttreeks_description/posematrix.cpp)
+# link the nodes with the headers
+target_link_libraries(test_posematrix posematrix funcs ${catkin_LIBRARIES})
 
 # node
 add_executable(test_gnuplot src/nodes/test_gnuplot.cpp)
 # class
 add_library(gnuplot src/arttreeks_description/gnuplot.cpp)
 # link the nodes with the headers
-target_link_libraries(test_gnuplot gnuplot ${catkin_LIBRARIES})
+target_link_libraries(test_gnuplot gnuplot funcs ${catkin_LIBRARIES})
 
 # node
-add_executable(test_tree src/nodes/test_tree.cpp)
+add_executable(test_node src/nodes/test_node.cpp)
 # class
 add_library(node src/arttreeks_description/node.cpp)
 # link the nodes with the headers
-target_link_libraries(test_tree node ${catkin_LIBRARIES})
+target_link_libraries(test_node node funcs ${catkin_LIBRARIES})
 
 # node
-add_executable(urdf_creator src/nodes/urdf_creator.cpp)
+add_executable(test_edge src/nodes/test_edge.cpp)
+# class
+add_library(edge src/arttreeks_description/edge.cpp)
+# link the nodes with the headers
+target_link_libraries(test_edge edge funcs ${catkin_LIBRARIES})
+
+# node
+add_executable(create_urdf src/nodes/create_urdf.cpp)
 # class
 add_library(robot src/arttreeks_description/robot.cpp)
 # link the nodes with the headers
-target_link_libraries(urdf_creator robot gnuplot node ${catkin_LIBRARIES})
+target_link_libraries(create_urdf robot gnuplot node edge posematrix funcs ${catkin_LIBRARIES})
+
+# node
+add_executable(test_plucker src/nodes/test_plucker.cpp)
+# template class
+add_library(pluckercoordinate INTERFACE)
+target_include_directories(pluckercoordinate INTERFACE include/)
+# link the nodes with the headers
+target_link_libraries(test_plucker robot gnuplot node pluckercoordinate funcs ${catkin_LIBRARIES})
 
 
-#install(TARGETS robot
-# ARCHIVE DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
-# LIBRARY DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
-#)
+
 
 
 

@@ -1,3 +1,272 @@
 <?xml version="1.0" ?> 
 <robot name="atks" xmlns:xacro="http://ros.org/wiki/xacro"> 
+ <link name="base"/> 
+  <joint name="base_edge0_linkP" type="fixed">  
+    <parent link="base"/>   
+    <child link="edge0_linkP"/>  
+    <origin xyz="0.000000 0.000000 0.000000" rpy="0.000000 0.000000 0.000000"/>   
+  </joint>   
+  <link name="edge0_linkP">   
+      <visual>   
+       <geometry>    
+         <cylinder length="0.000000" radius="0.000000"/>    
+       </geometry>   
+        <origin xyz="0.000000 0.000000 0.000000" rpy="0.000000 0.000000 0.000000"/>   
+       <material name="Material_1"> 
+         <color rgba="0.000000 0.000000 0.000000 1.000000"/> 
+       </material>  
+     </visual>   
+   </link>    
+  <joint name="edge0_linkP_edge0_link0Z_1" type="fixed">  
+    <parent link="edge0_linkP"/>   
+    <child link="edge0_link0Z_1"/>  
+    <origin xyz="0.000000 0.000000 0.000000" rpy="0.000000 0.000000 0.000000"/>   
+  </joint>   
+  <joint name="edge0_linkP_edge0_link0Z_2" type="fixed">  
+    <parent link="edge0_linkP"/>   
+    <child link="edge0_link0Z_2"/>  
+    <origin xyz="0.000000 0.000000 0.000000" rpy="0.000000 0.000000 0.000000"/>   
+  </joint>   
+  <joint name="edge0_linkP_edge0_link0Z_3" type="fixed">  
+    <parent link="edge0_linkP"/>   
+    <child link="edge0_link0Z_3"/>  
+    <origin xyz="0.000000 0.000000 0.000000" rpy="0.000000 0.000000 0.000000"/>   
+  </joint>   
+  <link name="edge0_link0Z_1">   
+      <visual>   
+       <geometry>    
+         <cylinder length="778.625538" radius="1.500000"/>    
+       </geometry>   
+        <origin xyz="0.000000 0.000000 389.312769" rpy="0.000000 0.000000 0.000000"/>   
+       <material name="Material_2"> 
+         <color rgba="0.541176 0.168627 0.886275 1.000000"/> 
+       </material>  
+     </visual>   
+   </link>    
+  <joint name="edge0_link0Z_1_edge0_link0X_1" type="fixed">  
+    <parent link="edge0_link0Z_1"/>   
+    <child link="edge0_link0X_1"/>  
+    <origin xyz="0.000000 0.000000 778.625538" rpy="0.000000 0.000000 1.857751"/>   
+  </joint>   
+  <link name="edge0_link0X_1">   
+      <visual>   
+       <geometry>    
+         <cylinder length="97.379663" radius="1.000000"/>    
+       </geometry>   
+        <origin xyz="48.689831 0.000000 0.000000" rpy="0.000000 1.570796 0.000000"/>   
+       <material name="Material_3"> 
+         <color rgba="0.541176 0.168627 0.886275 1.000000"/> 
+       </material>  
+     </visual>   
+   </link>    
+  <joint name="edge0_link0X_1_edge1_link0Z" type="revolute"> 
+   <parent link="edge0_link0X_1"/>    
+    <child link="edge1_link0Z"/>   
+    <origin xyz="97.379663 0.000000 0.000000" rpy="-2.126377 0.000000 0.000000"/>   
+   <limit effort="1000.0" lower="-3.14" upper="3.14" velocity="0.5"/>    
+  <axis xyz="0.000000 0.000000 1.000000"/>   
+   </joint> 
+  <link name="edge1_link0Z">   
+      <visual>   
+       <geometry>    
+         <cylinder length="41.178497" radius="1.500000"/>    
+       </geometry>   
+        <origin xyz="0.000000 0.000000 -20.589248" rpy="0.000000 0.000000 0.000000"/>   
+       <material name="Material_4"> 
+         <color rgba="0.541176 0.168627 0.886275 1.000000"/> 
+       </material>  
+     </visual>   
+   </link>    
+  <joint name="edge1_link0Z_edge1_link0X" type="fixed">  
+    <parent link="edge1_link0Z"/>   
+    <child link="edge1_link0X"/>  
+    <origin xyz="0.000000 0.000000 -41.178497" rpy="0.000000 0.000000 1.452909"/>   
+  </joint>   
+  <link name="edge1_link0X">   
+      <visual>   
+       <geometry>    
+         <cylinder length="544.479453" radius="1.000000"/>    
+       </geometry>   
+        <origin xyz="272.239727 0.000000 0.000000" rpy="0.000000 1.570796 0.000000"/>   
+       <material name="Material_5"> 
+         <color rgba="0.541176 0.168627 0.886275 1.000000"/> 
+       </material>  
+     </visual>   
+   </link>    
+  <joint name="edge1_link0X_edge1_link1Z" type="revolute"> 
+   <parent link="edge1_link0X"/>    
+    <child link="edge1_link1Z"/>   
+    <origin xyz="544.479453 0.000000 0.000000" rpy="2.471007 0.000000 0.000000"/>   
+   <limit effort="1000.0" lower="-3.14" upper="3.14" velocity="0.5"/>    
+  <axis xyz="0.000000 0.000000 1.000000"/>   
+   </joint> 
+  <link name="edge1_link1Z">   
+      <visual>   
+       <geometry>    
+         <cylinder length="586.570970" radius="1.500000"/>    
+       </geometry>   
+        <origin xyz="2.729976 -10.169003 -293.096425" rpy="3.105685 -0.000000 0.262276"/>   
+       <material name="Material_6"> 
+         <color rgba="1.000000 1.000000 1.000000 1.000000"/> 
+       </material>  
+     </visual>   
+   </link>    
+  <link name="edge0_link0Z_2">   
+      <visual>   
+       <geometry>    
+         <cylinder length="37.600784" radius="1.500000"/>    
+       </geometry>   
+        <origin xyz="0.000000 0.000000 -18.800392" rpy="0.000000 0.000000 0.000000"/>   
+       <material name="Material_7"> 
+         <color rgba="0.541176 0.168627 0.886275 1.000000"/> 
+       </material>  
+     </visual>   
+   </link>    
+  <joint name="edge0_link0Z_2_edge0_link0X_2" type="fixed">  
+    <parent link="edge0_link0Z_2"/>   
+    <child link="edge0_link0X_2"/>  
+    <origin xyz="0.000000 0.000000 -37.600784" rpy="0.000000 0.000000 2.600631"/>   
+  </joint>   
+  <link name="edge0_link0X_2">   
+      <visual>   
+       <geometry>    
+         <cylinder length="59.939482" radius="1.000000"/>    
+       </geometry>   
+        <origin xyz="29.969741 0.000000 0.000000" rpy="0.000000 1.570796 0.000000"/>   
+       <material name="Material_8"> 
+         <color rgba="0.541176 0.168627 0.886275 1.000000"/> 
+       </material>  
+     </visual>   
+   </link>    
+  <joint name="edge0_link0X_2_edge2_link0Z" type="revolute"> 
+   <parent link="edge0_link0X_2"/>    
+    <child link="edge2_link0Z"/>   
+    <origin xyz="59.939482 0.000000 0.000000" rpy="-0.387155 0.000000 0.000000"/>   
+   <limit effort="1000.0" lower="-3.14" upper="3.14" velocity="0.5"/>    
+  <axis xyz="0.000000 0.000000 1.000000"/>   
+   </joint> 
+  <link name="edge2_link0Z">   
+      <visual>   
+       <geometry>    
+         <cylinder length="278.039909" radius="1.500000"/>    
+       </geometry>   
+        <origin xyz="0.000000 0.000000 139.019954" rpy="0.000000 0.000000 0.000000"/>   
+       <material name="Material_9"> 
+         <color rgba="0.541176 0.168627 0.886275 1.000000"/> 
+       </material>  
+     </visual>   
+   </link>    
+  <joint name="edge2_link0Z_edge2_link0X" type="fixed">  
+    <parent link="edge2_link0Z"/>   
+    <child link="edge2_link0X"/>  
+    <origin xyz="0.000000 0.000000 278.039909" rpy="0.000000 0.000000 -2.089212"/>   
+  </joint>   
+  <link name="edge2_link0X">   
+      <visual>   
+       <geometry>    
+         <cylinder length="23.728683" radius="1.000000"/>    
+       </geometry>   
+        <origin xyz="11.864342 0.000000 0.000000" rpy="0.000000 1.570796 0.000000"/>   
+       <material name="Material_10"> 
+         <color rgba="0.541176 0.168627 0.886275 1.000000"/> 
+       </material>  
+     </visual>   
+   </link>    
+  <joint name="edge2_link0X_edge2_link1Z" type="revolute"> 
+   <parent link="edge2_link0X"/>    
+    <child link="edge2_link1Z"/>   
+    <origin xyz="23.728683 0.000000 0.000000" rpy="-0.425631 0.000000 0.000000"/>   
+   <limit effort="1000.0" lower="-3.14" upper="3.14" velocity="0.5"/>    
+  <axis xyz="0.000000 0.000000 1.000000"/>   
+   </joint> 
+  <link name="edge2_link1Z">   
+      <visual>   
+       <geometry>    
+         <cylinder length="261.452906" radius="1.500000"/>    
+       </geometry>   
+        <origin xyz="-15.075027 -79.714347 -102.507424" rpy="-2.472100 -0.000000 2.954687"/>   
+       <material name="Material_11"> 
+         <color rgba="1.000000 1.000000 1.000000 1.000000"/> 
+       </material>  
+     </visual>   
+   </link>    
+  <link name="edge0_link0Z_3">   
+      <visual>   
+       <geometry>    
+         <cylinder length="7.162239" radius="1.500000"/>    
+       </geometry>   
+        <origin xyz="0.000000 0.000000 -3.581120" rpy="0.000000 0.000000 0.000000"/>   
+       <material name="Material_12"> 
+         <color rgba="0.541176 0.168627 0.886275 1.000000"/> 
+       </material>  
+     </visual>   
+   </link>    
+  <joint name="edge0_link0Z_3_edge0_link0X_3" type="fixed">  
+    <parent link="edge0_link0Z_3"/>   
+    <child link="edge0_link0X_3"/>  
+    <origin xyz="0.000000 0.000000 -7.162239" rpy="0.000000 0.000000 1.155475"/>   
+  </joint>   
+  <link name="edge0_link0X_3">   
+      <visual>   
+       <geometry>    
+         <cylinder length="4.274181" radius="1.000000"/>    
+       </geometry>   
+        <origin xyz="2.137090 0.000000 0.000000" rpy="0.000000 1.570796 0.000000"/>   
+       <material name="Material_13"> 
+         <color rgba="0.541176 0.168627 0.886275 1.000000"/> 
+       </material>  
+     </visual>   
+   </link>    
+  <joint name="edge0_link0X_3_edge3_link0Z" type="revolute"> 
+   <parent link="edge0_link0X_3"/>    
+    <child link="edge3_link0Z"/>   
+    <origin xyz="4.274181 0.000000 0.000000" rpy="0.911464 0.000000 0.000000"/>   
+   <limit effort="1000.0" lower="-3.14" upper="3.14" velocity="0.5"/>    
+  <axis xyz="0.000000 0.000000 1.000000"/>   
+   </joint> 
+  <link name="edge3_link0Z">   
+      <visual>   
+       <geometry>    
+         <cylinder length="52.829473" radius="1.500000"/>    
+       </geometry>   
+        <origin xyz="0.000000 0.000000 26.414736" rpy="0.000000 0.000000 0.000000"/>   
+       <material name="Material_14"> 
+         <color rgba="0.541176 0.168627 0.886275 1.000000"/> 
+       </material>  
+     </visual>   
+   </link>    
+  <joint name="edge3_link0Z_edge3_link0X" type="fixed">  
+    <parent link="edge3_link0Z"/>   
+    <child link="edge3_link0X"/>  
+    <origin xyz="0.000000 0.000000 52.829473" rpy="0.000000 0.000000 2.431912"/>   
+  </joint>   
+  <link name="edge3_link0X">   
+      <visual>   
+       <geometry>    
+         <cylinder length="157.426117" radius="1.000000"/>    
+       </geometry>   
+        <origin xyz="78.713059 0.000000 0.000000" rpy="0.000000 1.570796 0.000000"/>   
+       <material name="Material_15"> 
+         <color rgba="0.541176 0.168627 0.886275 1.000000"/> 
+       </material>  
+     </visual>   
+   </link>    
+  <joint name="edge3_link0X_edge3_link1Z" type="revolute"> 
+   <parent link="edge3_link0X"/>    
+    <child link="edge3_link1Z"/>   
+    <origin xyz="157.426117 0.000000 0.000000" rpy="0.772470 0.000000 0.000000"/>   
+   <limit effort="1000.0" lower="-3.14" upper="3.14" velocity="0.5"/>    
+  <axis xyz="0.000000 0.000000 1.000000"/>   
+   </joint> 
+  <link name="edge3_link1Z">   
+      <visual>   
+       <geometry>    
+         <cylinder length="158.623400" radius="1.500000"/>    
+       </geometry>   
+        <origin xyz="-11.413847 76.315021 -18.332686" rpy="-1.804053 -0.000000 0.148462"/>   
+       <material name="Material_16"> 
+         <color rgba="1.000000 1.000000 1.000000 1.000000"/> 
+       </material>  
+     </visual>   
+   </link>    
 </robot>

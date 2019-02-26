@@ -1,6 +1,8 @@
 cmake_minimum_required(VERSION 2.8.3)
 project(test_pkg)
 
+add_compile_options(-std=c++11)
+
 ## Find catkin macros and libraries
 ## if COMPONENTS list like find_package(catkin REQUIRED COMPONENTS xyz)
 ## is used, also find other catkin packages
@@ -185,6 +187,6 @@ include_directories(
 ## Add folders to be run by python nosetests
 # catkin_add_nosetests(test)
 
-add_executable(test_node src/test_node.cpp)
-target_link_libraries(test_node ${catkin_LIBRARIES})
+add_executable(test src/test.cpp)
+target_link_libraries(test ${catkin_LIBRARIES})
 
