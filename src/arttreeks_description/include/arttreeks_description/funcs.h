@@ -25,6 +25,13 @@ void extract_qv(const std::vector<double> &dq, tf2::Quaternion *q, tf2::Vector3 
 
 std::vector<double> convertString2Vector(const std::string &stringValue);
 
+std::vector<double> vectorMultipliedByDouble(const std::vector<double>& v, const double& d);
+std::vector<double> vectorDividedByDouble(const std::vector<double>& v, const double &d);
+double vectorMagnitude(const std::vector<double> &v);
+double dotProduct(const std::vector<double> &v1, const std::vector<double> &v2);
+std::vector<double> crossProduct(const std::vector<double> &v1, const std::vector<double> &v2);
+std::vector<double> sumVector(const std::vector<double> &v1, const std::vector<double> &v2);
+
 template<typename T2>
 void coutPlucker(const std::string &name, const PluckerCoordinate<T2> &pl);
 
@@ -53,5 +60,8 @@ void funcs::coutPlucker(const std::string &name, const PluckerCoordinate<T2> &pl
   }
   std::cout << name << " " << "Direction: " << coutStringDirection << " === " << "Moment: " << coutStringMoment << std::endl;
 }
+
+
+
 
 #endif // FUNCS_H

@@ -95,10 +95,10 @@ inputFileName(inFName),outputFileName(outFName) //, numPoses(nPos), edgeArray(jA
 
   // test calculateCommonNormal();
 /*  std::vector<double> dir1V ={0,0,1}; std::vector<double> dir1 = vectorDividedByDouble(dir1V, 5);
-  std::vector<double> pLine1 = {0,0,0}; std::vector<double> mom1 = crossProduct(pLine1, dir1);
+  std::vector<double> pLine1 = {0,0,0}; std::vector<double> mom1 = funcs::crossProduct(pLine1, dir1);
   PluckerCoordinate<double> plk1(dir1, mom1);
   std::vector<double> dir2V ={0,1,0}; std::vector<double> dir2 = vectorDividedByDouble(dir2V, 5);
-  std::vector<double> pLine2 = {2,0,2}; std::vector<double> mom2 = crossProduct(pLine2, dir2);
+  std::vector<double> pLine2 = {2,0,2}; std::vector<double> mom2 = funcs::crossProduct(pLine2, dir2);
   PluckerCoordinate<double> plk2(dir2, mom2);
   PluckerCoordinate<double> *plk3 = new PluckerCoordinate<double>();
   double *dist = new double(); double *ang = new double();
@@ -491,32 +491,6 @@ std::string Robot::cylinderLink(std::string name, std::vector<double> pose, std:
   return outString;
 }
 
-std::vector<double> Robot::vectorMultipliedByDouble(const std::vector<double>& v, const double& d){
-  std::vector<double> outV = {v[0]*d, v[1]*d, v[2]*d};
-  return outV;
-}
-std::vector<double> Robot::vectorDividedByDouble(const std::vector<double>& v, const double &d){
-  std::vector<double> outV = {v[0]/d, v[1]/d, v[2]/d};
-  return outV;
-}
-double Robot::vectorMagnitude(const std::vector<double> &v){
-  return sqrt( v[0]*v[0] + v[1]*v[1] + v[2]*v[2] );
-}
-double Robot::dotProduct(const std::vector<double> &v1, const std::vector<double> &v2){
-  return v1[0]*v2[0]+v1[1]*v2[1]+v1[2]*v2[2];
-}
-std::vector<double> Robot::crossProduct(const std::vector<double> &v1, const std::vector<double> &v2){
-  std::vector<double> cross;
-  cross.push_back(v1[1]*v2[2]-v1[2]*v2[1]);
-  cross.push_back(v1[2]*v2[0]-v1[0]*v2[2]);
-  cross.push_back(v1[0]*v2[1]-v1[1]*v2[0]);
-  return cross;
-}
-std::vector<double> Robot::sumVector(const std::vector<double> &v1, const std::vector<double> &v2){
-  std::vector<double> outV = {v1[0]+v2[0], v1[1]+v2[1], v1[2]+v2[2]};
-  return outV;
-}
-
 void Robot::calculateCommonNormal(const PluckerCoordinate<double> &pl1, const PluckerCoordinate<double> &pl2,
                         PluckerCoordinate<double> *pl3, double *distance, double *angle,
                         std::vector<double> &cl1, std::vector<double> &cl2, std::vector<double> &arbP){
@@ -526,22 +500,22 @@ void Robot::calculateCommonNormal(const PluckerCoordinate<double> &pl1, const Pl
   // I want arbP to be the origin of the previous frame, jointLinkStartPoint of the previous frame
 
   std::cout << "*******************" << std::endl;
-  std::vector<double> d12 = crossProduct(pl1.getDirection(), pl2.getDirection());
-  double d12Mag = vectorMagnitude(d12);
+  std::vector<double> d12 = funcs::crossProduct(pl1.getDirection(), pl2.getDirection());
+  double d12Mag = funcs::vectorMagnitude(d12);
 
-  double dtP = dotProduct(pl1.getDirection(), pl2.getDirection());
+  double dtP = funcs::dotProduct(pl1.getDirection(), pl2.getDirection());
   if(d12Mag < 0.001){ // two lines are parallel
-    std::vector<double> perpPointOnLine2 = crossProduct(pl2.getDirection(), pl2.getMoment());
-    std::vector<double> wVector = sumVector(perpPointOnLine2, vectorMultipliedByDouble( arbP, -1 ) );
-    std::vector<double> uVector = crossProduct(pl1.getDirection(), wVector);
-    *distance = vectorMagnitude(uVector);
+    std::vector<double> perpPointOnLine2 = funcs::crossProduct(pl2.getDirection(), pl2.getMoment());
+    std::vector<double> wVector = funcs::sumVector(perpPointOnLine2, funcs::vectorMultipliedByDouble( arbP, -1 ) );
+    std::vector<double> uVector = funcs::crossProduct(pl1.getDirection(), wVector);
+    *distance = funcs::vectorMagnitude(uVector);
     cl1 = arbP;
-    std::vector<double> uVpl1 = crossProduct(uVector, pl1.getDirection());
-    double uVpl1_mag = vectorMagnitude(uVpl1);
-    std::vector<double> normalDirection = vectorDividedByDouble( uVpl1 , uVpl1_mag);
-    std::vector<double> normalVector = vectorMultipliedByDouble(normalDirection, *distance);
-    cl2 = sumVector(cl1, normalVector);
-    std::vector<double> normalMoment = crossProduct(arbP, normalDirection);
+    std::vector<double> uVpl1 = funcs::crossProduct(uVector, pl1.getDirection());
+    double uVpl1_mag = funcs::vectorMagnitude(uVpl1);
+    std::vector<double> normalDirection = funcs::vectorDividedByDouble( uVpl1 , uVpl1_mag);
+    std::vector<double> normalVector = funcs::vectorMultipliedByDouble(normalDirection, *distance);
+    cl2 = funcs::sumVector(cl1, normalVector);
+    std::vector<double> normalMoment = funcs::crossProduct(arbP, normalDirection);
     *pl3 = PluckerCoordinate<double> (normalDirection, normalMoment);
     if(dtP > 0){ // same direction
       *angle = 0;
@@ -549,11 +523,11 @@ void Robot::calculateCommonNormal(const PluckerCoordinate<double> &pl1, const Pl
       *angle = PI;
     }
   }else{ // two lines are not parallel
-    std::vector<double> d3 = vectorDividedByDouble(d12, d12Mag);
+    std::vector<double> d3 = funcs::vectorDividedByDouble(d12, d12Mag);
     funcs::coutVector("d12 ==> ", d12);
 
-    std::vector<double> m12 = sumVector(crossProduct(pl1.getDirection(), pl2.getMoment()), crossProduct(pl1.getMoment(), pl2.getDirection()));
-    std::vector<double> m3 = vectorDividedByDouble(crossProduct(crossProduct(d12, m12), d12) , d12Mag*d12Mag*d12Mag);
+    std::vector<double> m12 = funcs::sumVector(funcs::crossProduct(pl1.getDirection(), pl2.getMoment()), funcs::crossProduct(pl1.getMoment(), pl2.getDirection()));
+    std::vector<double> m3 = funcs::vectorDividedByDouble(funcs::crossProduct(funcs::crossProduct(d12, m12), d12) , d12Mag*d12Mag*d12Mag);
 
     // cross product follows the right hand rule considering the smaller angle between lines
     // for example it considers -30 instead of 330, then in this case the common normal direction is
@@ -563,28 +537,28 @@ void Robot::calculateCommonNormal(const PluckerCoordinate<double> &pl1, const Pl
     // if the dot product of the vector connecting the normal points on the line from first to second
     // with the cross product of the lines is positive, then the cross product is from frist to second
     // otherwise, we need to reverse its direction
-    std::vector<double> p1 = crossProduct(pl1.getDirection(), pl1.getMoment());
-    std::vector<double> p2 = crossProduct(pl2.getDirection(), pl2.getMoment());
-    double aligned = dotProduct( sumVector(p2, vectorMultipliedByDouble(p1, -1)), d12);
+    std::vector<double> p1 = funcs::crossProduct(pl1.getDirection(), pl1.getMoment());
+    std::vector<double> p2 = funcs::crossProduct(pl2.getDirection(), pl2.getMoment());
+    double aligned = funcs::dotProduct( funcs::sumVector(p2,funcs::vectorMultipliedByDouble(p1, -1)), d12);
     // if aligned > 0 => cross product of two lines is directing from first one to the second one
     // if aligned < 0 => cross product of two lines is directing from second one to the first one
     // aligned can NOT be zero
     if(aligned < 0){
-      d3 = vectorMultipliedByDouble(d3, -1);
-      m3 = vectorMultipliedByDouble(m3, -1);
+      d3 = funcs::vectorMultipliedByDouble(d3, -1);
+      m3 = funcs::vectorMultipliedByDouble(m3, -1);
     }
     PluckerCoordinate<double> pluk3(d3, m3);
     *pl3 = pluk3;
 
-    std::vector<double> c1 = sumVector(crossProduct(d3, m3) ,vectorMultipliedByDouble(d3, dotProduct( p1, d3)) );
-    std::vector<double> c2 = sumVector(crossProduct(d3, m3) ,vectorMultipliedByDouble(d3, dotProduct( p2, d3)) );
+    std::vector<double> c1 = funcs::sumVector(funcs::crossProduct(d3, m3) ,funcs::vectorMultipliedByDouble(d3, funcs::dotProduct( p1, d3)) );
+    std::vector<double> c2 = funcs::sumVector(funcs::crossProduct(d3, m3) ,funcs::vectorMultipliedByDouble(d3, funcs::dotProduct( p2, d3)) );
     cl1 = c1;
     cl2 = c2;
 
-    std::vector<double> c12 = sumVector(c2, vectorMultipliedByDouble(c1, -1));
-    *distance = vectorMagnitude( c12 );
+    std::vector<double> c12 = funcs::sumVector(c2, funcs::vectorMultipliedByDouble(c1, -1));
+    *distance = funcs::vectorMagnitude( c12 );
 
-    double cosTheta = dotProduct(pl1.getDirection(), pl2.getDirection());
+    double cosTheta = funcs::dotProduct(pl1.getDirection(), pl2.getDirection());
     if(aligned > 0){ // same direction
       *angle = acos(cosTheta);
     }else if(aligned < 0){ // opposite direction
@@ -681,7 +655,7 @@ void Robot::createURDF(std::string xacroFile, const double &linkz_thikness, cons
       // and define the x-Axis direction based on z-axis (joint axis)
       funcs::coutPlucker("************** pluckerPreviousZ ========> ", *pluckerPreviousZ);
       funcs::coutPlucker("************** pluckerPreviousZ ========> ", *pluckerTempZ);
-      double same = dotProduct(pluckerPreviousZ->getDirection(), pluckerTempZ->getDirection());
+      double same = funcs::dotProduct(pluckerPreviousZ->getDirection(), pluckerTempZ->getDirection());
       if(same < 0){
         *b = -*b;
         *theta = -*theta;
@@ -769,7 +743,7 @@ void Robot::createURDF(std::string xacroFile, const double &linkz_thikness, cons
         *pluckerPreviousX = *pluckerNextX;
 
         // we should check if be and theta should be negative or not
-        double same = dotProduct(pluckerPreviousZ->getDirection(), pluckerTempZ->getDirection());
+        double same = funcs::dotProduct(pluckerPreviousZ->getDirection(), pluckerTempZ->getDirection());
         if(same < 0){
           *b = -*b;
           *theta = -*theta;
@@ -792,7 +766,7 @@ void Robot::createURDF(std::string xacroFile, const double &linkz_thikness, cons
         calculateCommonNormal(*pluckerPreviousX, *pluckerNextX, pluckerTempZ, b, theta, cOnLine1, cOnLine2, arbitraryP);
 
         // we should check if be and theta should be negative or not
-        same = dotProduct(pluckerPreviousZ->getDirection(), pluckerTempZ->getDirection());
+        same = funcs::dotProduct(pluckerPreviousZ->getDirection(), pluckerTempZ->getDirection());
         if(same < 0){
           *b = -*b;
           *theta = -*theta;

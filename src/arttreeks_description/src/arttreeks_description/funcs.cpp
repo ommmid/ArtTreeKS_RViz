@@ -79,3 +79,29 @@ std::vector<double> funcs::convertString2Vector(const std::string &stringValue){
 }
 
 
+std::vector<double> funcs::vectorMultipliedByDouble(const std::vector<double>& v, const double& d){
+  std::vector<double> outV = {v[0]*d, v[1]*d, v[2]*d};
+  return outV;
+}
+std::vector<double> funcs::vectorDividedByDouble(const std::vector<double>& v, const double &d){
+  std::vector<double> outV = {v[0]/d, v[1]/d, v[2]/d};
+  return outV;
+}
+double funcs::vectorMagnitude(const std::vector<double> &v){
+  return sqrt( v[0]*v[0] + v[1]*v[1] + v[2]*v[2] );
+}
+double funcs::dotProduct(const std::vector<double> &v1, const std::vector<double> &v2){
+  return v1[0]*v2[0]+v1[1]*v2[1]+v1[2]*v2[2];
+}
+std::vector<double> funcs::crossProduct(const std::vector<double> &v1, const std::vector<double> &v2){
+  std::vector<double> cross;
+  cross.push_back(v1[1]*v2[2]-v1[2]*v2[1]);
+  cross.push_back(v1[2]*v2[0]-v1[0]*v2[2]);
+  cross.push_back(v1[0]*v2[1]-v1[1]*v2[0]);
+  return cross;
+}
+std::vector<double> funcs::sumVector(const std::vector<double> &v1, const std::vector<double> &v2){
+  std::vector<double> outV = {v1[0]+v2[0], v1[1]+v2[1], v1[2]+v2[2]};
+  return outV;
+}
+

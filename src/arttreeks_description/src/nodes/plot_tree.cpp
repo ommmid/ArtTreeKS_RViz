@@ -39,7 +39,6 @@ int main(int argc, char **argv)
 
    gplot(sstr);
 
-
    std::cin.get();
  }else{
    std::cout << "!!! run create_urdf node first !!!" <<  std::endl;
