@@ -24,6 +24,7 @@ inputFileName(inFName),outputFileName(outFName) //, numPoses(nPos), edgeArray(jA
   // get the file content as a string called fileString
   Robot::getString();
 
+  //set pA and jA
   std::size_t p_start_index = inputFileString.find("parentPointer = {", 0) + 17;
   std::cout << "p_start_index " << p_start_index << std::endl;
   std::size_t p_end_index = inputFileString.find("}" , p_start_index);
@@ -110,8 +111,9 @@ inputFileName(inFName),outputFileName(outFName) //, numPoses(nPos), edgeArray(jA
 */
 
   extractEEPoseMatrix();
-  extractEEPoseQuaternion();
+  extractEEPoseDualQuaternion();
 
+  plotTree();
   materialCounter =0;
 }
 
@@ -233,14 +235,8 @@ void Robot::plotTree(){
   }
   ft.close();
 
-  gnuplot gplot;
-  std::string sstr = "set xrange [-1:" + std::to_string(xCounter) + "] ; set yrange [-2:" + std::to_string(tcpLevel+1) + "];"
-      "plot 'points.dat' using 1:2 with lines lc rgb \"black\" lw 2 notitle,"
-  " 'points.dat' using 4:5 with circles linecolor rgb \"white\" lw 2 fill solid border lc lt 0 notitle,"
-  " 'points.dat' using 1:2:3 with labels offset (0,0) font 'Arial Bold' notitle";
-
-  gplot(sstr);
-  std::cin.get();
+  xLevelCounter = xCounter;
+  tcpLevelCounter = tcpLevel;
 }
 
 // given parentArray and an index, this functions find the indexes of the children of that index
@@ -408,24 +404,27 @@ std::cout << "numberofBranches " << numBranches << std::endl;
 }
 
 
-void Robot::extractEEPoseQuaternion(){
+void Robot::extractEEPoseDualQuaternion(){
 
   for(int r = 1; r <= numBranches; ++r){
 
-    std::vector<tf2::Quaternion> eePoseQuat;
+    std::vector<std::vector<double>> eePoseQuat;
     for(int p = 1; p <= numPoses; ++p){
       std::string targetString = "P[" + std::to_string(p) + "][" + std::to_string(r) + "]" ;
       std::size_t start_index = inputFileString.find(targetString, 0) + 19;
       std::size_t end_index = inputFileString.find("}", start_index);
       std::string subStr = inputFileString.substr(start_index, end_index - start_index);
       std::vector<double> dq = funcs::convertString2Vector(subStr);
-      tf2::Quaternion q; q.setX(dq[1]); q.setY(dq[2]); q.setZ(dq[3]); q.setW(dq[0]);
-      eePoseQuat.push_back(q);
+      std::vector<double> dqC = {dq[1], dq[2], dq[3], dq[0], dq[4], dq[5], dq[6], dq[7]};
+      eePoseQuat.push_back(dqC);
     }
-    eePoseQuaternion.push_back(eePoseQuat);
+    eePoseDualQuaternion.push_back(eePoseQuat);
   }
 }
 
+std::vector<std::vector<std::vector<double>>> Robot::getEEPoseDualQuaternion(){
+  return eePoseDualQuaternion;
+}
 
 std::vector<edge> Robot::getEdgeArray(){
   return edgeArray;

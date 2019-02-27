@@ -197,11 +197,6 @@ include_directories(
 add_library(funcs src/arttreeks_description/funcs.cpp)
 
 # node
-add_executable(publish_targets src/nodes/publish_targets.cpp)
-# link the nodes with the headers
-target_link_libraries(publish_targets funcs ${catkin_LIBRARIES})
-
-# node
 add_executable(create_dq_pose src/nodes/create_dq_pose.cpp)
 # link the nodes with the headers
 target_link_libraries(create_dq_pose funcs ${catkin_LIBRARIES})
@@ -249,8 +244,10 @@ target_include_directories(pluckercoordinate INTERFACE include/)
 # link the nodes with the headers
 target_link_libraries(test_plucker robot gnuplot node pluckercoordinate funcs ${catkin_LIBRARIES})
 
-
-
+# node
+add_executable(plot_tree src/nodes/plot_tree.cpp)
+# link the nodes with the headers
+target_link_libraries(plot_tree funcs gnuplot ${catkin_LIBRARIES})
 
 
 

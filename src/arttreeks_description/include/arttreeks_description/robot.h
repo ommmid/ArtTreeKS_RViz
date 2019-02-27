@@ -16,6 +16,8 @@ class Robot
 {
 public:
   int numPoses;
+  int xLevelCounter;
+  int tcpLevelCounter;
   std::vector<int> branchesEE; // edge numbers that are at the end of each branch
   std::vector<int> eeIndexes; // we need the indexes of ee in the above series
   int numBranches;
@@ -37,6 +39,7 @@ public:
   void createURDF(std::string xacroFile, const double &linkz_thikness, const double linkx_thikness);
   std::vector<edge> getEdgeArray();
   std::vector<PluckerCoordinate<double>> getJointAxesArray();
+  std::vector<std::vector<std::vector<double>>> getEEPoseDualQuaternion();
 
 private:
   std::string inputFileString; // the content of ArtTreeKS output in string format
@@ -51,7 +54,7 @@ private:
   std::vector<PluckerCoordinate<double>> xAxesArray;
   std::vector<std::vector<double>> jointValuesArray;
   std::vector<std::vector<PoseMatrix>> eePoseMatrix; // each branch has a list of poses
-  std::vector<std::vector<tf2::Quaternion>> eePoseQuaternion;
+  std::vector<std::vector<std::vector<double>>> eePoseDualQuaternion;
   void extractJointInformation(); // extract the joint axes from fileString and set them to edgeArray
   int materialCounter;
 
@@ -61,7 +64,7 @@ private:
    *
    * */
   void extractEEPoseMatrix(); //
-  void extractEEPoseQuaternion();
+  void extractEEPoseDualQuaternion();
 
   // urdf functions
   // pose is a 6-element vector, three for position and three for orientation
